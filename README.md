@@ -3,10 +3,10 @@
 **Description:**
 
 **For User:**
--The goal of this application is for user to manage tasks according to due date, and track the progress of each task.
--Task tracker changes color of task items when due date is approching according to priority.
--User is able to assign task status by dragging and dropping to status column.
--User is able to move tasks in one column based on priority. 
+- The goal of this application is for user to manage tasks according to due date, and track the progress of each task.
+- Task tracker changes color of task items when due date is approching according to priority.
+- User is able to assign task status by dragging and dropping to status column.
+- User is able to move tasks in one column based on priority. 
 -User can click on task and is able to edit task descrition and due date. 
 -User is able to remove all tasks or delete one at a time by dragging down to trash.
 
