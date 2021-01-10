@@ -162,8 +162,6 @@ $(".list-group").on("change", "input[type='text']", function () {
     .addClass("badge badge-primary badge-pill")
     .text(date);
 
-/// √√√√√√√√ check why on refresh, li item classes keep showing on other status card////////
-
   // replace input with span element
   $(this).replaceWith(taskSpan);
 
@@ -192,7 +190,7 @@ var auditTask = function (taskEl) {//passing <li>
   else if (Math.abs(moment().diff(time, "days")) <= 2) {
     $(taskEl).addClass("list-group-item-warning");
   }
-
+  //console.log(taskEl) 
 };
 
 
@@ -203,16 +201,18 @@ $(".card .list-group").sortable({
   tolerance: "pointer",
   helper: "clone", //tells jQuery to create copy of dragged element and move copy instead of original
   activate: function (event) {
-      
+    $(this).addClass("dropover")
+    $(".bottom-trash").addClass("bottom-trash-drag");
   },
   deactivate: function (event) {
-    
+    $(this).removeClass("dropover")
+    $(".bottom-trash").removeClass("bottom-trash-drag");
   },
   over: function (event) {
-    
+    $("event.target").addClass("dropover-active");
   },
   out: function (event) {
-    
+    $("event.target").removeClass("dropover-active")
   },
   update: function (event) {
     // array to store the task data in
@@ -236,7 +236,7 @@ $(".card .list-group").sortable({
         text: text,
         date: date
       });
-    });
+    }); //√√√check how to update the object info so it's not rendered upon audit///////
     // trim down list's ID to match object property
     var arrName = $(this)
       .attr("id")
@@ -254,14 +254,15 @@ $("#trash").droppable({
   accept: ".card .list-group-item",
   tolerance: "touch",
   drop: function (event, ui) {
-    ui.draggable.remove();
-    console.log("drop");
+    ui.draggable.remove()
+    $(".bottom-trash").removeClass("bottom-trash-active")
+
   },
   over: function (event, ui) {
-    console.log("over");
+    $(".bottom-trash").addClass("bottom-trash-active")
   },
   out: function (event, ui) {
-    console.log("out");
+    $(".bottom-trash").removeClass("bottom-trash-active")
   }
 });
 
@@ -285,7 +286,7 @@ $("#modalDueDate").datepicker({
 });
 
 // Save button in modal was clicked
-$("#task-form-modal .btn-primary").click(function () {
+$("#task-form-modal .btn-save").click(function () {
   // get form values
   var taskText = $("#modalTaskDescription").val();
   var taskDate = $("#modalDueDate").val();
@@ -316,8 +317,12 @@ $("#remove-tasks").on("click", function () {
   saveTasks();
 });
 
-
 // LOAD TASKS for the first time
 loadTasks();
 
-
+// Set AUDIT SCHEDULE
+setInterval(function () {
+  $(".card .list-group-item").each(function (index, el) {
+    auditTask(el);
+  });
+}, 1800000);
